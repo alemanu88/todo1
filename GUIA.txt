@@ -1,0 +1,15 @@
+Colaborador Qvisión: Manuel Alejandro Vinasco
+
+* este documento contiene los pasos para poner en marcha la aplicación
+
+tecnologias utilizadas:
+
+* java 1.8
+* Spring boot 2.1.4
+* postgres 9.4
+
+1. Descargar los fuentes y almacenarlos en una carpeta con el nombre de "todo1".
+
+2. Se entrega fuentes del backend.
+
+3. Se entregan scripts base de datos postgres
