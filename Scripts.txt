@@ -1,0 +1,118 @@
+CREATE SCHEMA todo1
+    AUTHORIZATION postgres;
+	
+
+
+CREATE TABLE todo1.producto
+(
+    descripcion character varying(80) COLLATE pg_catalog."default" NOT NULL,
+    stock integer NOT NULL,
+    precio numeric(15,0) NOT NULL,
+    idproducto integer NOT NULL DEFAULT nextval('todo1.producto_idproducto_seq'::regclass),
+    CONSTRAINT producto_pkey PRIMARY KEY (idproducto)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+
+
+CREATE TABLE todo1.empleado
+(
+    nombre character varying(50) COLLATE pg_catalog."default" NOT NULL,
+    apellido character varying(50) COLLATE pg_catalog."default",
+    tipodocumento character varying(2) COLLATE pg_catalog."default" NOT NULL,
+    numdocumento character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    idempleado integer NOT NULL DEFAULT nextval('todo1.empleado_idempleado_seq'::regclass),
+    CONSTRAINT empleado_pkey PRIMARY KEY (idempleado)
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+
+CREATE TABLE todo1.detalle_venta
+(
+    idproducto integer NOT NULL,
+    fechaventa date NOT NULL,
+    cantidad integer NOT NULL,
+    preciound numeric(15,0) NOT NULL,
+    iddetalle integer NOT NULL DEFAULT nextval('todo1.detalle_venta_iddetalle_seq'::regclass),
+    idempleado integer NOT NULL,
+    CONSTRAINT detalle_venta_pkey PRIMARY KEY (iddetalle),
+    CONSTRAINT fk_detalle_empleado FOREIGN KEY (idempleado)
+        REFERENCES todo1.empleado (idempleado) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT fk_detalle_producto FOREIGN KEY (idproducto)
+        REFERENCES todo1.producto (idproducto) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+	
+
+
+CREATE TABLE todo1.detalle_stock
+(
+    idproducto integer NOT NULL,
+    movimiento character varying(10) COLLATE pg_catalog."default" NOT NULL,
+    fecha date NOT NULL,
+    cantidad integer NOT NULL,
+    preciound numeric(15,0),
+    iddetalle integer NOT NULL DEFAULT nextval('todo1.detalle_stock_iddetalle_seq'::regclass),
+    CONSTRAINT detalle_stock_pkey PRIMARY KEY (iddetalle),
+    CONSTRAINT fk_stock_producto FOREIGN KEY (idproducto)
+        REFERENCES todo1.producto (idproducto) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+WITH (
+    OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+
+	
+	
+CREATE SEQUENCE todo1.detalle_stock_iddetalle_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;	
+	
+	
+CREATE SEQUENCE todo1.detalle_venta_iddetalle_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;	
+	
+CREATE SEQUENCE todo1.empleado_idempleado_seq
+    INCREMENT 1
+    START 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;	
+	
+CREATE SEQUENCE todo1.producto_idproducto_seq
+    INCREMENT 1
+    START 4
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    CACHE 1;	
+	
+	
+	
+	
